@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator HPP Profesional - Araya Consulting</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+
+    <div class="max-w-xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden mt-6 border border-gray-200">
+        <div class="bg-blue-600 p-6 text-white">
+            <h1 class="text-2xl font-bold">Kalkulator HPP Santai</h1>
+            <p class="text-sm opacity-80">Siap untuk bisnis kuliner Anda</p>
+        </div>
+
+        <div class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700">Nama Produk</label>
+                <input type="text" placeholder="Contoh: Seblak Komplit" class="w-full mt-1 p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div id="bahan-list" class="space-y-3">
+                <label class="block text-sm font-semibold text-gray-700">Komponen Bahan</label>
+                </div>
+
+            <button onclick="tambahBaris()" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:bg-gray-50 flex items-center justify-center gap-2">
+                <i data-lucide="plus-circle"></i> Tambah Bahan Baku
+            </button>
+        </div>
+
+        <div class="p-6 bg-gray-50 border-t border-gray-200">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-gray-600 font-medium">Total HPP per Produk:</span>
+                <span id="total-hpp" class="text-2xl font-bold text-blue-600">Rp 0</span>
+            </div>
+            <button class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition">
+                Simpan Perhitungan
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Inisialisasi Ikon
+        lucide.createIcons();
+
+        function tambahBaris() {
+            const list = document.getElementById('bahan-list');
+            const div = document.createElement('div');
+            div.className = "flex gap-2 items-center animate-pulse";
+            div.innerHTML = `
+                <input type="text" placeholder="Bahan" class="flex-1 p-2 bg-white border rounded-lg text-sm">
+                <input type="number" placeholder="Harga" oninput="hitungTotal()" class="w-24 p-2 bg-white border rounded-lg text-sm harga-input">
+                <button onclick="this.parentElement.remove(); hitungTotal()" class="text-red-400 p-1">
+                    <i data-lucide="trash-2" size="18"></i>
+                </button>
+            `;
+            list.appendChild(div);
+            lucide.createIcons(); // Render ulang ikon baru
+        }
+
+        function hitungTotal() {
+            let total = 0;
+            const inputs = document.querySelectorAll('.harga-input');
+            inputs.forEach(input => {
+                total += Number(input.value) || 0;
+            });
+            document.getElementById('total-hpp').innerText = "Rp " + total.toLocaleString('id-ID');
+        }
+
+        // Tambah baris pertama secara otomatis
+        tambahBaris();
+    </script>
+</body>
+</html>
