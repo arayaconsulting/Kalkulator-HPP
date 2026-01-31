@@ -3,73 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator HPP Profesional - Araya Consulting</title>
+    <title>Kalkulator HPP & Laba - Araya Consulting</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body class="bg-gray-100 min-h-screen p-4">
+<body class="bg-gray-100 min-h-screen pb-10">
 
     <div class="max-w-xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden mt-6 border border-gray-200">
-        <div class="bg-blue-600 p-6 text-white">
-            <h1 class="text-2xl font-bold">Kalkulator HPP Santai</h1>
-            <p class="text-sm opacity-80">Siap untuk bisnis kuliner Anda</p>
+        <div class="bg-blue-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-bold">Kalkulator HPP & Proyeksi Laba</h1>
+            <p class="text-sm opacity-80">Tools Profesional untuk UMKM</p>
         </div>
 
-        <div class="p-6 space-y-4">
+        <div class="p-6 space-y-6">
             <div>
                 <label class="block text-sm font-semibold text-gray-700">Nama Produk</label>
-                <input type="text" placeholder="Contoh: Seblak Komplit" class="w-full mt-1 p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="nama-produk" placeholder="Contoh: Seblak Komplit" class="w-full mt-1 p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <div id="bahan-list" class="space-y-3">
-                <label class="block text-sm font-semibold text-gray-700">Komponen Bahan</label>
-                </div>
+                <label class="block text-sm font-semibold text-gray-700 italic text-blue-600">Biaya Variabel (Bahan Baku)</label>
+            </div>
 
             <button onclick="tambahBaris()" class="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:bg-gray-50 flex items-center justify-center gap-2">
-                <i data-lucide="plus-circle"></i> Tambah Bahan Baku
+                <i data-lucide="plus-circle"></i> Tambah Komponen
             </button>
-        </div>
 
-        <div class="p-6 bg-gray-50 border-t border-gray-200">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-gray-600 font-medium">Total HPP per Produk:</span>
-                <span id="total-hpp" class="text-2xl font-bold text-blue-600">Rp 0</span>
+            <div class="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex justify-between items-center">
+                <span class="font-bold text-blue-800">Total HPP per Porsi:</span>
+                <span id="total-hpp" class="text-xl font-black text-blue-700">Rp 0</span>
             </div>
-            <button class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition">
-                Simpan Perhitungan
-            </button>
+
+            <hr class="border-gray-100">
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-3">Saran Harga Jual (Pilih Salah Satu):</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="pilihMargin(0.3, this)" class="margin-btn p-3 border rounded-xl text-center hover:bg-blue-50 transition">
+                        <div class="text-[10px] uppercase font-bold text-gray-400">Kompetitif</div>
+                        <div class="font-bold text-sm">30%</div>
+                    </button>
+                    <button onclick="pilihMargin(0.5, this)" class="margin-btn p-3 border rounded-xl text-center hover:bg-blue-50 transition">
+                        <div class="text-[10px] uppercase font-bold text-gray-400">Standar</div>
+                        <div class="font-bold text-sm">50%</div>
+                    </button>
+                    <button onclick="pilihMargin(1.0, this)" class="margin-btn p-3 border rounded-xl text-center hover:bg-blue-50 transition">
+                        <div class="text-[10px] uppercase font-bold text-gray-400">Premium</div>
+                        <div class="font-bold text-sm">100%</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="space-y-4 pt-4 border-t border-gray-100">
+                <label class="block text-sm font-semibold text-gray-700">Target Laba Bersih / Bulan</label>
+                <input type="number" id="target-laba" oninput="hitungProyeksi()" placeholder="Contoh: 3000000" class="w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 focus:ring-green-500">
+                
+                <div id="hasil-proyeksi" class="hidden animate-in fade-in zoom-in duration-300">
+                    <div class="p-4 bg-green-600 rounded-2xl text-white shadow-lg" id="area-simpan-gambar">
+                        <p class="text-xs opacity-90">Target Penjualan agar Laba Tercapai:</p>
+                        <h4 id="target-jual" class="text-2xl font-black">0 Porsi / Hari</h4>
+                        <p id="info-omzet" class="text-[10px] mt-1 opacity-80 italic"></p>
+                        <p class="text-[8px] mt-2 opacity-60">Dihitung oleh Kalkulator HPP Araya Consulting</p>
+                    </div>
+                    <button onclick="simpanSebagaiGambar()" class="w-full bg-green-500 text-white py-3 rounded-2xl font-bold shadow-lg hover:bg-green-600 transition mt-4">
+                        <i data-lucide="image" class="inline-block mr-2"></i> Simpan Hasil Sebagai Gambar
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        // Inisialisasi Ikon
         lucide.createIcons();
+        let currentHpp = 0;
+        let selectedPrice = 0;
 
         function tambahBaris() {
             const list = document.getElementById('bahan-list');
             const div = document.createElement('div');
-            div.className = "flex gap-2 items-center animate-pulse";
+            div.className = "flex gap-2 items-center";
             div.innerHTML = `
-                <input type="text" placeholder="Bahan" class="flex-1 p-2 bg-white border rounded-lg text-sm">
-                <input type="number" placeholder="Harga" oninput="hitungTotal()" class="w-24 p-2 bg-white border rounded-lg text-sm harga-input">
-                <button onclick="this.parentElement.remove(); hitungTotal()" class="text-red-400 p-1">
-                    <i data-lucide="trash-2" size="18"></i>
-                </button>
+                <input type="text" placeholder="Bahan" class="flex-1 p-3 bg-gray-50 border rounded-xl text-sm">
+                <input type="number" placeholder="Harga" oninput="hitungTotal()" class="w-28 p-3 bg-gray-50 border rounded-xl text-sm harga-input">
+                <button onclick="this.parentElement.remove(); hitungTotal()" class="text-red-400 p-2"><i data-lucide="trash-2" size="18"></i></button>
             `;
             list.appendChild(div);
-            lucide.createIcons(); // Render ulang ikon baru
+            lucide.createIcons();
         }
 
         function hitungTotal() {
-            let total = 0;
-            const inputs = document.querySelectorAll('.harga-input');
-            inputs.forEach(input => {
-                total += Number(input.value) || 0;
-            });
-            document.getElementById('total-hpp').innerText = "Rp " + total.toLocaleString('id-ID');
+            currentHpp = 0;
+            document.querySelectorAll('.harga-input').forEach(i => currentHpp += Number(i.value) || 0);
+            document.getElementById('total-hpp').innerText = "Rp " + currentHpp.toLocaleString('id-ID');
+            hitungProyeksi();
         }
 
-        // Tambah baris pertama secara otomatis
+        function pilihMargin(percent, btn) {
+            document.querySelectorAll('.margin-btn').forEach(b => b.classList.remove('bg-blue-600', 'text-white', 'border-blue-600'));
+            btn.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+            
+            selectedPrice = currentHpp + (currentHpp * percent);
+            hitungProyeksi();
+        }
+
+        function hitungProyeksi() {
+            const targetLaba = Number(document.getElementById('target-laba').value) || 0;
+            const hasilDiv = document.getElementById('hasil-proyeksi');
+            const namaProduk = document.getElementById('nama-produk').value || 'Produk Ini';
+
+            if (targetLaba > 0 && selectedPrice > currentHpp) {
+                hasilDiv.classList.remove('hidden');
+                const labaPerPorsi = selectedPrice - currentHpp;
+                const totalJualBulan = Math.ceil(targetLaba / labaPerPorsi);
+                const jualPerHari = Math.ceil(totalJualBulan / 30);
+                
+                document.getElementById('target-jual').innerText = jualPerHari.toLocaleString() + " Porsi / Hari";
+                document.getElementById('info-omzet').innerText = `*Target omzet Rp ${(totalJualBulan * selectedPrice).toLocaleString('id-ID')} dari ${totalJualBulan.toLocaleString()} porsi ${namaProduk} per bulan.`;
+            } else {
+                hasilDiv.classList.add('hidden');
+            }
+        }
+
+        // Fungsi untuk menyimpan hasil sebagai gambar
+        function simpanSebagaiGambar() {
+            const area = document.getElementById('area-simpan-gambar'); // ID div yang ingin diubah jadi gambar
+            const namaProduk = document.getElementById('nama-produk').value || 'Hasil Perhitungan HPP';
+            
+            html2canvas(area, { 
+                scale: 2, // Meningkatkan kualitas gambar
+                useCORS: true // Penting jika ada gambar eksternal (meskipun di sini tidak ada)
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `${namaProduk.replace(/\s/g, '_')}_${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
         tambahBaris();
     </script>
 </body>
