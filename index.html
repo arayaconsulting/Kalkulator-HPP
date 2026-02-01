@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans text-slate-900">
+<body class="bg-[#F8F9FA] min-h-screen font-sans text-slate-900">
 
     <div id="landing-page" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
         <div class="mb-6 p-5 bg-indigo-600 rounded-[2rem] text-white shadow-2xl">
@@ -18,108 +18,106 @@
             Kalkulator Finansial <br><span class="text-indigo-600 italic">By Araya Consulting</span>
         </h1>
         <p class="text-slate-500 max-w-sm mb-10 text-sm leading-relaxed">
-            Analisis HPP, Alokasi Biaya Tetap, dan Strategi Harga Berbasis AI untuk UMKM Profesional.
+            Analisis HPP, Biaya Tetap, dan Strategi Harga Berbasis AI untuk UMKM Profesional.
         </p>
-        
-        <div class="flex flex-col gap-3 w-full max-w-xs">
-            <button onclick="bukaApp()" class="bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-xl hover:bg-indigo-700 transition-all flex items-center justify-center gap-3">
-                Mulai Analisis Sekarang <i data-lucide="arrow-right"></i>
-            </button>
-            <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-2xl text-left">
-                <div class="flex items-center gap-2 mb-1">
-                    <i data-lucide="crown" size="14" class="text-amber-500"></i>
-                    <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">Araya Premium</span>
-                </div>
-                <p class="text-[11px] text-slate-600 font-medium">Penawaran Premium: Akses simpan database permanen & konsultasi strategi AI tanpa batas.</p>
-            </div>
-        </div>
+        <button onclick="bukaApp()" class="w-full max-w-xs bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-xl hover:bg-indigo-700 transition-all">
+            Mulai Analisis Sekarang
+        </button>
     </div>
 
     <div id="app-section" class="hidden max-w-2xl mx-auto p-4 md:p-8">
-        <div class="bg-white rounded-[3rem] shadow-2xl border border-slate-100 overflow-hidden pb-10">
+        <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden pb-10">
             <div class="bg-indigo-600 p-8 text-white flex justify-between items-center">
-                <div>
-                    <h2 class="text-xl font-bold italic">Araya Business Tools</h2>
-                    <p class="text-[9px] opacity-70 uppercase tracking-widest font-bold">Strategic Financial Suite</p>
-                </div>
+                <h2 class="text-xl font-bold italic">Araya Business Tools</h2>
                 <button onclick="location.reload()" class="bg-white/10 p-2 rounded-xl"><i data-lucide="rotate-ccw" size="18"></i></button>
             </div>
 
-            <div class="p-8 space-y-10">
-                <section class="space-y-4">
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Informasi Produk</label>
-                    <input type="text" id="nama-produk" placeholder="Contoh: Roti John atau Produk Jasa..." class="w-full p-4 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-indigo-500 font-bold">
-                    
-                    <button onclick="panggilAI()" id="btn-ai" class="w-full bg-blue-50 text-blue-600 py-3 rounded-xl font-bold border border-blue-100 flex items-center justify-center gap-2 hover:bg-blue-100 transition">
-                        <i data-lucide="sparkles" size="16"></i> Bantu Analisis HPP dengan AI
-                    </button>
-                    <div id="ai-response" class="hidden mt-4 text-xs text-slate-600 leading-relaxed bg-white p-4 rounded-xl border border-indigo-100"></div>
+            <div class="p-6 space-y-8">
+                <section>
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nama Produk</label>
+                    <input type="text" id="nama-produk" placeholder="Contoh: Roti John" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-indigo-500 font-bold">
                 </section>
 
                 <section>
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Biaya Variabel (Variable Cost)</label>
-                    <div id="bahan-list" class="space-y-2 mb-4"></div>
-                    <button onclick="tambahBahan()" class="text-indigo-600 text-[10px] font-black uppercase flex items-center gap-1 tracking-wider"><i data-lucide="plus-circle" size="14"></i> Tambah Bahan</button>
+                    <div class="flex justify-between items-center mb-4">
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest">Biaya Variabel (Variable Cost)</label>
+                        <button class="text-[10px] text-green-600 font-bold flex items-center gap-1"><i data-lucide="file-spreadsheet" size="14"></i> Export .xlsx</button>
+                    </div>
+                    <div class="grid grid-cols-12 gap-2 mb-2 px-2">
+                        <div class="col-span-6 text-[10px] font-bold text-slate-400">Bahan</div>
+                        <div class="col-span-3 text-[10px] font-bold text-slate-400">Jml Pakai</div>
+                        <div class="col-span-3 text-[10px] font-bold text-slate-400 text-right">Harga</div>
+                    </div>
+                    <div id="bahan-list" class="space-y-2"></div>
+                    <button onclick="tambahBahan()" class="mt-4 text-indigo-600 text-[10px] font-black uppercase flex items-center gap-1"><i data-lucide="plus-circle" size="14"></i> Tambah Bahan</button>
                 </section>
 
-                <section class="bg-slate-50 p-6 rounded-[2rem] border border-slate-100">
-                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Alokasi Biaya Tetap per Produk</label>
-                    
-                    <div class="bg-white p-4 rounded-2xl border border-slate-200 mb-6">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase">Target Penjualan Produk Ini (Unit/Bulan)</span>
+                <section class="bg-indigo-50/50 p-6 rounded-[2rem] border border-indigo-100">
+                    <label class="block text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-4">Alokasi Biaya Tetap per Produk</label>
+                    <div class="bg-white p-4 rounded-2xl border border-indigo-200 mb-6">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase italic">Target Penjualan Produk Ini (Unit/Bulan)</span>
                         <input type="number" id="target-unit" value="1000" oninput="hitungSemua()" class="w-full mt-1 p-1 text-2xl font-black outline-none bg-transparent text-indigo-600">
                     </div>
-
-                    <div id="fixed-costs" class="space-y-3">
-                        <div class="flex gap-2">
-                            <input type="text" value="Sewa Tempat (per bulan)" readonly class="flex-1 bg-transparent p-3 text-xs font-semibold text-slate-500">
-                            <input type="number" id="fc-sewa" value="2000000" oninput="hitungSemua()" class="w-32 bg-white p-3 rounded-xl text-xs border border-slate-200 font-bold shadow-sm">
+                    <div class="space-y-3">
+                        <div class="flex gap-2 bg-white p-1 rounded-xl border border-slate-100">
+                            <input type="text" value="Sewa Tempat (per bulan)" readonly class="flex-1 p-2 text-xs font-semibold text-slate-500 bg-transparent">
+                            <input type="number" id="fc-sewa" value="2000000" oninput="hitungSemua()" class="w-28 p-2 text-xs font-bold text-right outline-none">
                         </div>
-                        <div class="flex gap-2">
-                            <input type="text" value="Listrik & Air (per bulan)" readonly class="flex-1 bg-transparent p-3 text-xs font-semibold text-slate-500">
-                            <input type="number" id="fc-utilitas" value="500000" oninput="hitungSemua()" class="w-32 bg-white p-3 rounded-xl text-xs border border-slate-200 font-bold shadow-sm">
+                        <div class="flex gap-2 bg-white p-1 rounded-xl border border-slate-100">
+                            <input type="text" value="Listrik & Air (per bulan)" readonly class="flex-1 p-2 text-xs font-semibold text-slate-500 bg-transparent">
+                            <input type="number" id="fc-utilitas" value="500000" oninput="hitungSemua()" class="w-28 p-2 text-xs font-bold text-right outline-none">
                         </div>
-                        <div class="flex gap-2">
-                            <input type="text" value="Gaji Karyawan (per bulan)" readonly class="flex-1 bg-transparent p-3 text-xs font-semibold text-slate-500">
-                            <input type="number" id="fc-gaji" value="2500000" oninput="hitungSemua()" class="w-32 bg-white p-3 rounded-xl text-xs border border-slate-200 font-bold shadow-sm">
+                        <div class="flex gap-2 bg-white p-1 rounded-xl border border-slate-100">
+                            <input type="text" value="Gas LPG (per bulan)" readonly class="flex-1 p-2 text-xs font-semibold text-slate-500 bg-transparent">
+                            <input type="number" id="fc-gas" value="100000" oninput="hitungSemua()" class="w-28 p-2 text-xs font-bold text-right outline-none">
+                        </div>
+                        <div class="flex gap-2 bg-white p-1 rounded-xl border border-slate-100">
+                            <input type="text" value="Gaji Karyawan (per bulan)" readonly class="flex-1 p-2 text-xs font-semibold text-slate-500 bg-transparent">
+                            <input type="number" id="fc-gaji" value="2500000" oninput="hitungSemua()" class="w-28 p-2 text-xs font-bold text-right outline-none">
                         </div>
                     </div>
+                    <button onclick="hitungSemua()" class="w-full mt-6 bg-green-600 text-white py-4 rounded-2xl font-black text-sm shadow-lg hover:bg-green-700 transition">HITUNG HPP & SARAN HARGA</button>
                 </section>
 
-                <div id="hasil-container" class="hidden space-y-6">
-                    <div id="area-simpan" class="p-10 bg-slate-900 rounded-[3rem] text-white shadow-2xl relative overflow-hidden text-center">
-                        <p class="text-[9px] font-black uppercase tracking-[0.4em] mb-8 text-indigo-400">Financial Analysis Report</p>
-                        
-                        <div class="grid grid-cols-2 gap-4 mb-8 text-left italic">
-                            <div>
-                                <p class="text-[8px] text-slate-500 uppercase font-black mb-1">HPP per Unit</p>
-                                <h4 id="res-total" class="text-3xl font-black">Rp 0</h4>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-[8px] text-slate-500 uppercase font-black mb-1">Target Harian</p>
-                                <h4 id="target-harian" class="text-3xl font-black">0 Unit</h4>
-                            </div>
+                <div id="hasil-container" class="hidden space-y-8">
+                    <div class="p-6 bg-[#F1F3F5] rounded-2xl border border-slate-200">
+                        <div class="flex items-center gap-2 mb-4 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                            <i data-lucide="clipboard-list" size="14"></i> Rincian HPP per Produk
                         </div>
-
-                        <div class="space-y-2 pt-6 border-t border-slate-800 text-left text-[10px]">
+                        <div class="space-y-2 text-sm">
                             <div class="flex justify-between">
-                                <span class="text-slate-400 italic">Biaya Variabel per Unit:</span>
+                                <span class="text-slate-500">Biaya Variabel per Produk</span>
                                 <span id="res-variable" class="font-bold">Rp 0</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-slate-400 italic">Alokasi Biaya Tetap:</span>
-                                <span id="res-fixed" class="font-bold text-blue-400">Rp 0</span>
+                                <span class="text-slate-500">Alokasi Biaya Tetap <i data-lucide="info" size="12" class="inline text-blue-400"></i></span>
+                                <span id="res-fixed" class="font-bold">Rp 0</span>
+                            </div>
+                            <div class="pt-2 border-t border-slate-300 flex justify-between font-black text-indigo-600">
+                                <span>Total HPP per Produk</span>
+                                <span id="res-total">Rp 0</span>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="mt-8 pt-4 border-t border-slate-800 opacity-30 flex justify-between items-center text-[7px] font-black uppercase">
-                            <span>Standardized by Araya Consulting</span>
-                            <span id="date-now"></span>
+                    <section>
+                        <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Target Laba Bersih / Bulan</label>
+                        <input type="number" id="target-laba" oninput="hitungSemua()" value="3000000" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none font-bold text-indigo-600">
+                    </section>
+
+                    <div id="area-simpan" class="space-y-3">
+                        <div class="p-6 bg-white border border-slate-200 rounded-3xl text-center">
+                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Target Jual / Hari</p>
+                            <h4 id="target-harian" class="text-3xl font-black text-slate-800">0 pcs</h4>
+                        </div>
+                        <div class="p-6 bg-indigo-600 rounded-3xl text-white text-center shadow-xl">
+                            <p class="text-[10px] font-bold opacity-80 uppercase mb-1">Proyeksi Laba Bersih / Bulan</p>
+                            <h4 id="proyeksi-laba" class="text-3xl font-black">Rp 0</h4>
                         </div>
                     </div>
-                    
-                    <button onclick="simpanGambar()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3 active:scale-95 transition">
-                        <i data-lucide="share-2" size="18"></i> Simpan Laporan
+
+                    <button onclick="simpanGambar()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3 active:scale-95 transition">
+                        <i data-lucide="share-2" size="18"></i> Simpan Laporan Strategis
                     </button>
                 </div>
             </div>
@@ -129,65 +127,64 @@
     <script>
         lucide.createIcons();
         
-        // Ganti dengan API Key baru besok
-        const API_KEY = "API_KEY_ANDA"; 
-
         function bukaApp() {
             document.getElementById('landing-page').classList.add('hidden');
             document.getElementById('app-section').classList.remove('hidden');
-            if(document.querySelectorAll('.row-bahan').length === 0) tambahBahan('Bahan Baku Utama', 10000);
+            if(document.querySelectorAll('.row-bahan').length === 0) {
+                tambahBahan('Roti John', 1, 'pcs', 10000);
+            }
         }
 
-        function tambahBahan(nama = '', harga = '') {
+        function tambahBahan(nama = '', jml = 1, satuan = 'pcs', harga = 0) {
             const list = document.getElementById('bahan-list');
             const div = document.createElement('div');
-            div.className = "flex gap-2 items-center row-bahan";
+            div.className = "grid grid-cols-12 gap-2 items-center row-bahan p-2 bg-slate-50 rounded-xl border border-slate-100";
             div.innerHTML = `
-                <input type="text" placeholder="Item" value="${nama}" class="flex-1 p-3 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium">
-                <input type="number" placeholder="Rp" value="${harga}" oninput="hitungSemua()" class="w-24 p-3 bg-white border border-slate-200 rounded-xl text-sm font-bold shadow-sm harga-input">
-                <button onclick="this.parentElement.remove(); hitungSemua()" class="text-slate-300 hover:text-red-500"><i data-lucide="minus-circle" size="18"></i></button>
+                <div class="col-span-6"><input type="text" placeholder="Bahan" value="${nama}" class="w-full bg-transparent text-sm font-medium outline-none"></div>
+                <div class="col-span-2"><input type="number" value="${jml}" class="w-full bg-white p-1 rounded-md text-sm text-center font-bold"></div>
+                <div class="col-span-3"><input type="number" value="${harga}" oninput="hitungSemua()" class="w-full bg-white p-1 rounded-md text-sm text-right font-bold harga-input"></div>
+                <div class="col-span-1 text-right"><button onclick="this.parentElement.parentElement.remove(); hitungSemua()" class="text-slate-300 hover:text-red-500"><i data-lucide="x" size="16"></i></button></div>
             `;
             list.appendChild(div);
             lucide.createIcons();
         }
 
-        // LOGIKA AKURAT SESUAI RUJUKAN FOTO
         function hitungSemua() {
-            // 1. Hitung Total Biaya Bahan Baku (Variable Cost)
             let totalBahan = 0;
             document.querySelectorAll('.harga-input').forEach(i => totalBahan += Number(i.value) || 0);
-            document.getElementById('res-variable').innerText = "Rp " + totalBahan.toLocaleString('id-ID');
-
-            // 2. Ambil Data Target Penjualan & Biaya Tetap (Sesuai Foto)
+            
             const targetUnit = Number(document.getElementById('target-unit').value) || 1;
             const sewa = Number(document.getElementById('fc-sewa').value) || 0;
             const utilitas = Number(document.getElementById('fc-utilitas').value) || 0;
+            const gas = Number(document.getElementById('fc-gas').value) || 0;
             const gaji = Number(document.getElementById('fc-gaji').value) || 0;
-            
-            // 3. Logika Alokasi Biaya Tetap (Fixed Cost Allocation)
-            const totalFixedCost = sewa + utilitas + gaji;
-            const alokasiFixedPerUnit = Math.ceil(totalFixedCost / targetUnit);
-            document.getElementById('res-fixed').innerText = "Rp " + alokasiFixedPerUnit.toLocaleString('id-ID');
+            const targetLaba = Number(document.getElementById('target-laba').value) || 0;
 
-            // 4. HPP Akhir per Produk
+            const totalFixedCost = sewa + utilitas + gas + gaji;
+            const alokasiFixedPerUnit = Math.ceil(totalFixedCost / targetUnit);
             const hppFinal = totalBahan + alokasiFixedPerUnit;
+
+            // Update UI
+            document.getElementById('hasil-container').classList.remove('hidden');
+            document.getElementById('res-variable').innerText = "Rp " + totalBahan.toLocaleString('id-ID');
+            document.getElementById('res-fixed').innerText = "Rp " + alokasiFixedPerUnit.toLocaleString('id-ID');
             document.getElementById('res-total').innerText = "Rp " + hppFinal.toLocaleString('id-ID');
             
-            // 5. Update Info Tambahan & UI
-            document.getElementById('hasil-container').classList.remove('hidden');
-            document.getElementById('target-harian').innerText = Math.ceil(targetUnit / 30) + " Unit";
-            document.getElementById('date-now').innerText = new Date().toLocaleDateString('id-ID');
-        }
-
-        async function panggilAI() {
-            alert("Sistem AI akan diaktifkan besok dengan API Key baru Anda.");
+            // Logika Target Jual
+            // Misal kita ambil margin standar 50% dari HPP untuk simulasi laba
+            const hargaJualSimulasi = hppFinal * 1.5;
+            const profitPerUnit = hargaJualSimulasi - hppFinal;
+            const unitButuh = Math.ceil(targetLaba / profitPerUnit);
+            
+            document.getElementById('target-harian').innerText = Math.ceil(unitButuh / 30) + " Unit";
+            document.getElementById('proyeksi-laba').innerText = "Rp " + targetLaba.toLocaleString('id-ID');
         }
 
         function simpanGambar() {
             const area = document.getElementById('area-simpan');
-            html2canvas(area, { scale: 3, backgroundColor: '#0f172a', borderRadius: 50 }).then(canvas => {
+            html2canvas(area, { scale: 3, backgroundColor: '#ffffff', borderRadius: 50 }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Analisis_Araya_${new Date().getTime()}.png`;
+                link.download = `Laporan_HPP_Araya.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             });
