@@ -249,30 +249,6 @@
             document.getElementById('res-omzet').innerText = "Rp " + (unitButuhBulanan * hargaJual).toLocaleString('id-ID');
             document.getElementById('date-now').innerText = new Date().toLocaleDateString('id-ID');
         }
-
-        function simpanGambar() {
-            const area = document.getElementById('capture-area');
-            html2canvas(area, { scale: 3, backgroundColor: '#0F172A', borderRadius: 48, useCORS: true }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Laporan_Araya_${new Date().getTime()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            });
-        }
-
-        function kirimKeWA() {
-            const nama = document.getElementById('nama-produk').value || "Produk";
-            const hpp = document.getElementById('res-total-hpp').innerText;
-            const harga = document.getElementById('res-harga-jual').innerText;
-            const target = document.getElementById('target-harian').innerText;
-            let pesan = `*LAPORAN ANALISIS BISNIS - ARAYA CONSULTING*\n\n`;
-            pesan += `Produk: *${nama}*\n`;
-            pesan += `HPP Total: *${hpp}*\n`;
-            pesan += `Rekomendasi Harga: *${harga}*\n`;
-            pesan += `Target Jual Harian: *${target}*\n\n`;
-            pesan += `_Dibuat via Araya Business Tools_`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(pesan)}`, '_blank');
-        }
     </script>
 </body>
 </html>
