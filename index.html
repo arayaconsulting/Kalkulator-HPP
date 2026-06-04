@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;600;800&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .premium-gradient { background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%); }
@@ -23,11 +23,9 @@
 
     <!-- 1. LANDING PAGE EKSKLUSIF -->
     <div id="landing-page" class="fixed inset-0 z-[100] premium-gradient flex flex-col items-center justify-center p-6 text-center transition-opacity duration-500">
-        <!-- Logo Landscape Tampil Full & Proporsional -->
         <div class="mb-10 bg-white rounded-2xl shadow-2xl animate-fade-in overflow-hidden flex items-center justify-center p-4">
             <img src="logo.png" alt="Logo Araya Consulting" class="w-64 h-auto max-h-32 object-contain">
         </div>
-        
         <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight text-center">
             Kalkulator Laba <br><span class="text-indigo-200">Bisnis Kuliner Pro</span>
         </h1>
@@ -46,10 +44,8 @@
 
     <!-- 2. MAIN APP SECTION -->
     <div id="app-section" class="hidden opacity-0 transition-opacity duration-700">
-        <!-- HEADER DENGAN LOGO LANDSCAPE FULL -->
         <div class="max-w-xl mx-auto bg-indigo-600 p-6 flex justify-between items-center text-white sticky top-0 z-50 shadow-lg rounded-b-[2rem]">
             <div class="flex items-center gap-4 text-left">
-                <!-- Wadah Logo Landscape di Header -->
                 <div class="bg-white p-1.5 rounded-lg shadow-sm">
                     <img src="logo.png" alt="Logo" class="w-20 h-auto object-contain">
                 </div>
@@ -62,13 +58,14 @@
         </div>
 
         <div class="max-w-xl mx-auto p-4 md:p-6 space-y-6 pb-20 text-left">
-            <!-- Form Informasi Produk -->
+            
+            <!-- STEP 1: INFORMASI PRODUK -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 block italic">Informasi Produk</label>
                 <input type="text" id="nama-produk" placeholder="Contoh: Seblak Komplit" class="w-full p-2 border-b-2 border-slate-100 outline-none focus:border-indigo-500 font-bold text-xl transition-colors">
             </div>
 
-            <!-- Biaya Variabel -->
+            <!-- STEP 2: BIAYA VARIABEL -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-5">
                 <label class="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] italic block">Biaya Variabel (Variable Cost)</label>
                 <div id="bahan-list" class="space-y-3"></div>
@@ -77,11 +74,10 @@
                 </button>
             </div>
 
-            <!-- Biaya Tetap & Target -->
+            <!-- STEP 3: KAPASITAS PRODUKSI & BIAYA TETAP -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-6">
-                <!-- LABEL BARU ATAS -->
                 <div class="p-5 bg-indigo-50/50 rounded-3xl border border-indigo-100/50 text-center">
-                    <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] italic mb-3 text-center">Asumsi Kapasitas Production Efektif (Porsi/Bulan)</p>
+                    <p class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] italic mb-3 text-center">Asumsi Kapasitas Produksi Efektif (Porsi/Bulan)</p>
                     <input type="number" id="target-unit" value="1000" oninput="hitungTotal()" class="w-full bg-transparent text-4xl font-black text-indigo-600 outline-none text-center">
                 </div>
 
@@ -106,32 +102,51 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Margin Keuntungan Custom -->
-                <div class="pt-4 border-t border-slate-50">
-                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] italic mb-4 block">Input Margin Keuntungan (%)</label>
+            <!-- STEP 4: MARGIN, MODAL HPP & BEP -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-5">
+                <div>
+                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] italic mb-3 block">Input Margin Keuntungan (%)</label>
                     <div class="bg-white p-4 rounded-2xl border-2 border-indigo-100 flex items-center shadow-sm">
                         <input type="number" id="input-margin" value="30" oninput="hitungTotal()" class="w-full bg-transparent text-2xl font-black text-indigo-600 outline-none text-center">
                         <span class="text-xl font-bold text-indigo-300 ml-2">%</span>
                     </div>
                 </div>
 
-                <!-- Target Laba Bersih -->
-                <div class="bg-indigo-50/30 p-5 rounded-3xl space-y-2 text-center border border-indigo-100/50">
-                    <label class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] italic block">Target Laba Bersih Per Bulan</label>
+                <!-- Hasil Dasar Sekaligus Indikator Awal -->
+                <div class="grid grid-cols-2 gap-4 pt-2">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase block mb-1 italic">HPP Dasar / Unit</span>
+                        <h5 id="mid-hpp" class="text-lg font-black text-slate-800">Rp 0</h5>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase block mb-1 italic">Rekomendasi Harga</span>
+                        <h5 id="mid-harga" class="text-lg font-black text-indigo-600">Rp 0</h5>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block mb-1 italic">Porsi BEP (Titik Impas Bulanan)</span>
+                    <h5 id="mid-bep" class="text-lg font-black text-amber-600">0 Unit / Bulan</h5>
+                </div>
+            </div>
+
+            <!-- STEP 5: STRATEGI TARGET LABA BERSIH -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-4">
+                <div class="bg-indigo-50/50 p-5 rounded-3xl text-center border border-indigo-100/50">
+                    <label class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] italic block mb-2">Target Laba Bersih Per Bulan</label>
                     <input type="number" id="target-laba" value="5000000" oninput="hitungTotal()" class="w-full bg-transparent text-2xl font-black text-indigo-800 outline-none text-center">
                 </div>
             </div>
 
-            <!-- EXECUTIVE SUMMARY -->
+            <!-- EXECUTIVE SUMMARY (LAPORAN AKHIR) -->
             <div id="capture-area" class="bg-slate-900 p-10 rounded-[3rem] text-white shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
                 <p class="text-[9px] font-black text-indigo-400 uppercase tracking-[0.4em] mb-10 text-center italic uppercase">Executive Summary</p>
                 
                 <div class="grid grid-cols-2 gap-8 mb-12 text-left italic">
-                    <!-- LABEL BARU BAWAH -->
                     <div>
-                        <p class="text-[8px] text-slate-500 uppercase font-black mb-2 tracking-widest text-left">Target Penjualan Harian Minimal untuk Capai Laba</p>
+                        <p class="text-[8px] text-slate-500 uppercase font-black mb-2 tracking-widest text-left">Target Penjualan Harian Minimal</p>
                         <h4 id="target-harian" class="text-4xl font-extrabold italic text-left">0 Unit</h4>
                     </div>
                     <div class="text-right">
@@ -147,11 +162,11 @@
                     </div>
                     <div class="flex justify-between text-[10px] font-medium text-slate-400 italic">
                         <span>Porsi BEP Bulanan:</span>
-                        <span id="res-bep" class="text-white font-bold text-right text-indigo-200 italic">0 Unit</span>
+                        <span id="res-bep" class="text-white font-bold text-right text-indigo-200">0 Unit</span>
                     </div>
                     <div class="flex justify-between text-[10px] font-medium text-slate-400 italic">
                         <span>Estimasi Omzet Bulanan:</span>
-                        <span id="res-omzet" class="text-white font-bold text-indigo-300 text-right italic">Rp 0</span>
+                        <span id="res-omzet" class="text-white font-bold text-indigo-300 text-right">Rp 0</span>
                     </div>
                 </div>
 
@@ -161,6 +176,7 @@
                 </div>
             </div>
 
+            <!-- BUTTONS -->
             <div class="flex flex-col gap-4 text-center">
                 <button onclick="simpanGambar()" class="w-full bg-indigo-600 text-white py-5 rounded-2xl font-bold shadow-xl active:scale-95 transition-all flex items-center justify-center gap-3">
                     <i data-lucide="share-2" class="w-5 h-5 text-white"></i> Simpan Laporan Strategis
@@ -192,9 +208,11 @@
             const list = document.getElementById('bahan-list');
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-3 items-center p-3 bg-slate-50/50 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:shadow-sm";
+            
+            // PERBAIKAN: Menambahkan oninput="hitungTotal()" langsung di kolom quantity (jumlah-input)
             div.innerHTML = `
                 <div class="col-span-5 text-left"><input type="text" placeholder="Item" value="${nama}" class="w-full bg-transparent text-xs font-bold outline-none italic"></div>
-                <div class="col-span-3 text-center"><input type="number" value="${jml}" class="w-full bg-white p-2 rounded-xl text-xs text-center font-bold shadow-sm outline-none jumlah-input"></div>
+                <div class="col-span-3 text-center"><input type="number" value="${jml}" oninput="hitungTotal()" class="w-full bg-white p-2 rounded-xl text-xs text-center font-bold shadow-sm outline-none jumlah-input"></div>
                 <div class="col-span-4 flex items-center gap-2 text-right">
                     <input type="number" value="${harga}" oninput="hitungTotal()" class="w-full bg-white p-2 rounded-xl text-xs text-right font-bold shadow-sm harga-input outline-none">
                     <button onclick="this.parentElement.parentElement.remove(); hitungTotal()" class="text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="minus-circle" class="w-4 h-4"></i></button>
@@ -206,7 +224,6 @@
 
         function hitungTotal() {
             let totalVariable = 0;
-            // PERBAIKAN: Mengalikan Jumlah Pakai dengan Harga Satuan Bahan
             document.querySelectorAll('#bahan-list > div').forEach(row => {
                 const jml = Number(row.querySelector('.jumlah-input').value) || 0;
                 const harga = Number(row.querySelector('.harga-input').value) || 0;
@@ -230,6 +247,12 @@
             const unitButuhBulanan = Math.ceil((totalFC + targetLabaBersih) / labaPerUnit);
             const bepUnit = Math.ceil(totalFC / labaPerUnit);
 
+            // Update Bagian Tengah (HPP Dasar & BEP)
+            document.getElementById('mid-hpp').innerText = "Rp " + hppPerUnit.toLocaleString('id-ID');
+            document.getElementById('mid-harga').innerText = "Rp " + hargaJual.toLocaleString('id-ID');
+            document.getElementById('mid-bep').innerText = bepUnit.toLocaleString('id-ID') + " Unit / Bulan";
+
+            // Update Bagian Laporan Akhir (Executive Summary)
             document.getElementById('res-total-hpp').innerText = "Rp " + hppPerUnit.toLocaleString('id-ID');
             document.getElementById('res-harga-jual').innerText = "Rp " + hargaJual.toLocaleString('id-ID');
             document.getElementById('target-harian').innerText = Math.ceil(unitButuhBulanan / 30).toLocaleString('id-ID') + " Unit";
