@@ -181,6 +181,11 @@
     <script>
         lucide.createIcons();
 
+        // Variabel penampung data global agar sinkron saat dikirim ke WA/Gambar
+        let globalHpp = 0;
+        let globalHargaJual = 0;
+        let globalTargetHarian = "0 Unit";
+
         function mulaiAplikasi() {
             const landing = document.getElementById('landing-page');
             const app = document.getElementById('app-section');
@@ -236,6 +241,11 @@
             const unitButuhBulanan = Math.ceil((totalFC + targetLabaBersih) / labaPerUnit);
             const bepUnit = Math.ceil(totalFC / labaPerUnit);
 
+            // Kunci nilai ke variabel global agar aman diakses fungsi WA & Gambar
+            globalHpp = hppPerUnit;
+            globalHargaJual = hargaJual;
+            globalTargetHarian = Math.ceil(unitButuhBulanan / 30).toLocaleString('id-ID') + " Unit";
+
             // Update Tampilan Indikator Tengah
             document.getElementById('mid-hpp').innerText = "Rp " + hppPerUnit.toLocaleString('id-ID');
             document.getElementById('mid-harga').innerText = "Rp " + hargaJual.toLocaleString('id-ID');
@@ -244,10 +254,31 @@
             // Update Tampilan Laporan Akhir (Executive Summary)
             document.getElementById('res-total-hpp').innerText = "Rp " + hppPerUnit.toLocaleString('id-ID');
             document.getElementById('res-harga-jual').innerText = "Rp " + hargaJual.toLocaleString('id-ID');
-            document.getElementById('target-harian').innerText = Math.ceil(unitButuhBulanan / 30).toLocaleString('id-ID') + " Unit";
-            document.getElementById('res-bep').innerText = bepUnit.toLocaleString('id-ID') + " Unit / Bulan";
+            document.getElementById('target-harian').innerText = globalTargetHarian;
+            document.getElementById('res-bep').innerText = bepUnit.toLocaleString('id-ID') + " Unit";
             document.getElementById('res-omzet').innerText = "Rp " + (unitButuhBulanan * hargaJual).toLocaleString('id-ID');
             document.getElementById('date-now').innerText = new Date().toLocaleDateString('id-ID');
+        }
+
+        function simpanGambar() {
+            const area = document.getElementById('capture-area');
+            html2canvas(area, { scale: 3, backgroundColor: '#0F172A', borderRadius: 48, useCORS: true }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Laporan_Araya_${new Date().getTime()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function kirimKeWA() {
+            const nama = document.getElementById('nama-produk').value || "Produk";
+            let pesan = `*LAPORAN ANALISIS BISNIS - ARAYA CONSULTING*\n\n`;
+            pesan += `Produk: *${nama}*\n`;
+            pesan += `HPP Total: *Rp ${globalHpp.toLocaleString('id-ID')}*\n`;
+            pesan += `Rekomendasi Harga: *Rp ${globalHargaJual.toLocaleString('id-ID')}*\n`;
+            pesan += `Target Jual Harian: *${globalTargetHarian}*\n\n`;
+            pesan += `_Dibuat via Araya Business Tools_`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(pesan)}`, '_blank');
         }
     </script>
 </body>
