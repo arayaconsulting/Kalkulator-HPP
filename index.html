@@ -65,23 +65,29 @@
                 <input type="text" id="nama-produk" placeholder="Contoh: Telur Kriwil" class="w-full p-2 border-b-2 border-slate-100 outline-none focus:border-indigo-500 font-bold text-xl transition-colors">
             </div>
 
-            <!-- STEP 2: BIAYA VARIABEL -->
+            <!-- STEP 2: BIAYA VARIABEL (RESPONSIVE TABLE WITH SCROLL) -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-4">
                 <div>
                     <label class="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] italic block">Biaya Variabel (Variable Cost)</label>
                     <p class="text-[10px] text-slate-400 italic mt-0.5">💡 Contoh: Beli Tepung Terigu Rp11.000 isi 1.000 gr. Dipakai di resep 7 gr.</p>
                 </div>
                 
-                <div class="grid grid-cols-12 gap-1 text-[8px] font-black text-slate-400 uppercase tracking-wider px-2 italic">
-                    <div class="col-span-3">Nama Bahan</div>
-                    <div class="col-span-2 text-center">Dipakai/Porsi</div>
-                    <div class="col-span-2 text-right">Harga Beli</div>
-                    <div class="col-span-2 text-right">Isi Kemasan</div>
-                    <div class="col-span-2 text-right">Total/Porsi</div>
-                    <div class="col-span-1"></div>
-                </div>
+                <!-- CONTAINER WRAPPER AGAR DAPAT DIGESER (SCROLL HORIZONTAL) DI HP -->
+                <div class="overflow-x-auto pb-2 no-scrollbar">
+                    <div class="min-w-[520px]">
+                        <!-- Header Kolom Input Bahan -->
+                        <div class="grid grid-cols-12 gap-2 text-[9px] font-black text-slate-400 uppercase tracking-wider px-2 italic mb-2">
+                            <div class="col-span-3">Nama Bahan</div>
+                            <div class="col-span-2 text-center">Dipakai/Porsi</div>
+                            <div class="col-span-2 text-right">Harga Beli</div>
+                            <div class="col-span-2 text-right">Isi Kemasan</div>
+                            <div class="col-span-2 text-right">Total/Porsi</div>
+                            <div class="col-span-1"></div>
+                        </div>
 
-                <div id="bahan-list" class="space-y-2"></div>
+                        <div id="bahan-list" class="space-y-2"></div>
+                    </div>
+                </div>
 
                 <div class="flex justify-between items-center p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 font-bold text-xs text-indigo-900 mt-2">
                     <span class="uppercase tracking-wider">Total Biaya Bahan Baku</span>
@@ -242,26 +248,26 @@
         function tambahBahan(nama='', resep=1, hargaBeli=0, volume=1) {
             const list = document.getElementById('bahan-list');
             const div = document.createElement('div');
-            div.className = "grid grid-cols-12 gap-1 items-center p-2 bg-slate-50/50 rounded-xl border border-slate-100 transition-all hover:bg-white hover:shadow-sm";
+            div.className = "grid grid-cols-12 gap-2 items-center p-2 bg-slate-50/50 rounded-xl border border-slate-100 transition-all hover:bg-white hover:shadow-sm";
             
             div.innerHTML = `
                 <div class="col-span-3 text-left">
                     <input type="text" placeholder="Nama Bahan" value="${nama}" class="w-full bg-transparent text-[11px] font-bold outline-none italic">
                 </div>
                 <div class="col-span-2 text-center">
-                    <input type="number" value="${resep}" oninput="hitungTotal()" placeholder="0" class="w-full bg-white p-1 rounded-lg text-[11px] text-center font-bold shadow-sm outline-none resep-input">
+                    <input type="number" value="${resep}" oninput="hitungTotal()" placeholder="0" class="w-full bg-white p-1.5 rounded-lg text-[11px] text-center font-bold shadow-sm outline-none resep-input">
                 </div>
                 <div class="col-span-2 text-right">
-                    <input type="number" value="${hargaBeli}" oninput="hitungTotal()" placeholder="0" class="w-full bg-white p-1 rounded-lg text-[11px] text-right font-bold shadow-sm outline-none hargabeli-input">
+                    <input type="number" value="${hargaBeli}" oninput="hitungTotal()" placeholder="0" class="w-full bg-white p-1.5 rounded-lg text-[11px] text-right font-bold shadow-sm outline-none hargabeli-input">
                 </div>
                 <div class="col-span-2 text-right">
-                    <input type="number" value="${volume}" oninput="hitungTotal()" placeholder="1" class="w-full bg-white p-1 rounded-lg text-[11px] text-right font-bold shadow-sm outline-none volume-input">
+                    <input type="number" value="${volume}" oninput="hitungTotal()" placeholder="1" class="w-full bg-white p-1.5 rounded-lg text-[11px] text-right font-bold shadow-sm outline-none volume-input">
                 </div>
                 <div class="col-span-2 text-right pr-1">
                     <span class="text-[11px] font-black text-slate-700 total-harga-item">Rp 0</span>
                 </div>
                 <div class="col-span-1 text-center">
-                    <button onclick="this.parentElement.parentElement.remove(); hitungTotal()" class="text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="minus-circle" class="w-3.5 h-3.5"></i></button>
+                    <button onclick="this.parentElement.parentElement.remove(); hitungTotal()" class="text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="minus-circle" class="w-4 h-4"></i></button>
                 </div>
             `;
             list.appendChild(div);
