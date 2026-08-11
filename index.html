@@ -62,25 +62,32 @@
             <!-- STEP 1: INFORMASI PRODUK -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100">
                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3 block italic">Informasi Produk</label>
-                <input type="text" id="nama-produk" placeholder="Contoh: Seblak Komplit" class="w-full p-2 border-b-2 border-slate-100 outline-none focus:border-indigo-500 font-bold text-xl transition-colors">
+                <input type="text" id="nama-produk" placeholder="Contoh: Telur Kriwil" class="w-full p-2 border-b-2 border-slate-100 outline-none focus:border-indigo-500 font-bold text-xl transition-colors">
             </div>
 
-            <!-- STEP 2: BIAYA VARIABEL (Berdasarkan Konversi Resep) -->
+            <!-- STEP 2: BIAYA VARIABEL (Berdasarkan Spreadsheet) -->
             <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 space-y-4">
                 <label class="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em] italic block">Biaya Variabel (Variable Cost)</label>
                 
                 <!-- Header Kolom Input Bahan -->
-                <div class="grid grid-cols-12 gap-2 text-[9px] font-black text-slate-400 uppercase tracking-wider px-3 italic">
-                    <div class="col-span-4">Bahan</div>
+                <div class="grid grid-cols-12 gap-1 text-[8px] font-black text-slate-400 uppercase tracking-wider px-2 italic">
+                    <div class="col-span-3">Bahan</div>
                     <div class="col-span-2 text-center">Resep</div>
-                    <div class="col-span-3 text-right">Harga Beli</div>
-                    <div class="col-span-2 text-right">Vol Beli</div>
+                    <div class="col-span-2 text-right">Harga Beli</div>
+                    <div class="col-span-2 text-right">Volume</div>
+                    <div class="col-span-2 text-right">Total Harga</div>
                     <div class="col-span-1"></div>
                 </div>
 
-                <div id="bahan-list" class="space-y-3"></div>
+                <div id="bahan-list" class="space-y-2"></div>
+
+                <!-- Total Biaya Bahan Baku -->
+                <div class="flex justify-between items-center p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 font-bold text-xs text-indigo-900 mt-2">
+                    <span class="uppercase tracking-wider">Total Biaya Bahan Baku</span>
+                    <span id="subtotal-bahan" class="text-sm font-extrabold text-indigo-600">Rp 0</span>
+                </div>
                 
-                <button onclick="tambahBahan()" class="w-full flex items-center justify-center gap-2 bg-indigo-50 text-indigo-600 py-4 rounded-2xl text-xs font-black uppercase hover:bg-indigo-100 transition-all text-center">
+                <button onclick="tambahBahan()" class="w-full flex items-center justify-center gap-2 bg-indigo-50 text-indigo-600 py-4 rounded-2xl text-xs font-black uppercase hover:bg-indigo-100 transition-all text-center mt-2">
                     <i data-lucide="plus-circle" class="w-4 h-4 text-indigo-600"></i> Tambah Item Bahan
                 </button>
             </div>
@@ -202,8 +209,9 @@
                 app.classList.remove('hidden');
                 setTimeout(() => app.style.opacity = '1', 50);
                 
-                // Inisialisasi default data bahan baku (Resep, Harga Beli, Vol Beli)
+                // Inisialisasi default data bahan baku
                 tambahBahan('Telur Ayam', 1, 29000, 16);
+                tambahBahan('Tepung Terigu', 7, 11000, 1000);
                 
                 // Inisialisasi default data biaya tetap
                 tambahBiayaTetap('Sewa Tempat', 2000000);
@@ -218,23 +226,26 @@
         function tambahBahan(nama='', resep=1, hargaBeli=0, volume=1) {
             const list = document.getElementById('bahan-list');
             const div = document.createElement('div');
-            div.className = "grid grid-cols-12 gap-2 items-center p-3 bg-slate-50/50 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:shadow-sm";
+            div.className = "grid grid-cols-12 gap-1 items-center p-2 bg-slate-50/50 rounded-xl border border-slate-100 transition-all hover:bg-white hover:shadow-sm";
             
             div.innerHTML = `
-                <div class="col-span-4 text-left">
-                    <input type="text" placeholder="Bahan" value="${nama}" class="w-full bg-transparent text-xs font-bold outline-none italic">
+                <div class="col-span-3 text-left">
+                    <input type="text" placeholder="Bahan" value="${nama}" class="w-full bg-transparent text-[11px] font-bold outline-none italic">
                 </div>
                 <div class="col-span-2 text-center">
-                    <input type="number" value="${resep}" oninput="hitungTotal()" placeholder="Resep" class="w-full bg-white p-2 rounded-xl text-xs text-center font-bold shadow-sm outline-none resep-input">
-                </div>
-                <div class="col-span-3 text-right">
-                    <input type="number" value="${hargaBeli}" oninput="hitungTotal()" placeholder="Harga Beli" class="w-full bg-white p-2 rounded-xl text-xs text-right font-bold shadow-sm outline-none hargabeli-input">
+                    <input type="number" value="${resep}" oninput="hitungTotal()" class="w-full bg-white p-1 rounded-lg text-[11px] text-center font-bold shadow-sm outline-none resep-input">
                 </div>
                 <div class="col-span-2 text-right">
-                    <input type="number" value="${volume}" oninput="hitungTotal()" placeholder="Vol Beli" class="w-full bg-white p-2 rounded-xl text-xs text-right font-bold shadow-sm outline-none volume-input">
+                    <input type="number" value="${hargaBeli}" oninput="hitungTotal()" class="w-full bg-white p-1 rounded-lg text-[11px] text-right font-bold shadow-sm outline-none hargabeli-input">
+                </div>
+                <div class="col-span-2 text-right">
+                    <input type="number" value="${volume}" oninput="hitungTotal()" class="w-full bg-white p-1 rounded-lg text-[11px] text-right font-bold shadow-sm outline-none volume-input">
+                </div>
+                <div class="col-span-2 text-right pr-1">
+                    <span class="text-[11px] font-black text-slate-700 total-harga-item">Rp 0</span>
                 </div>
                 <div class="col-span-1 text-center">
-                    <button onclick="this.parentElement.parentElement.remove(); hitungTotal()" class="text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="minus-circle" class="w-4 h-4"></i></button>
+                    <button onclick="this.parentElement.parentElement.remove(); hitungTotal()" class="text-slate-300 hover:text-red-500 transition-colors"><i data-lucide="minus-circle" class="w-3.5 h-3.5"></i></button>
                 </div>
             `;
             list.appendChild(div);
@@ -266,11 +277,17 @@
             document.querySelectorAll('#bahan-list > div').forEach(row => {
                 const resep = Number(row.querySelector('.resep-input').value) || 0;
                 const hargaBeli = Number(row.querySelector('.hargabeli-input').value) || 0;
-                const volume = Number(row.querySelector('.volume-input').value) || 1; // Default 1 agar tidak terbagi 0
+                const volume = Number(row.querySelector('.volume-input').value) || 1;
                 
-                // Rumus Spreadsheet: (Harga Beli / Volume Beli) * Kebutuhan Resep
-                totalVariable += (hargaBeli / volume) * resep;
+                // Rumus: (Harga Beli / Volume Beli) * Kebutuhan Resep
+                const totalItem = Math.round((hargaBeli / volume) * resep);
+                row.querySelector('.total-harga-item').innerText = "Rp " + totalItem.toLocaleString('id-ID');
+                
+                totalVariable += totalItem;
             });
+
+            // Update Total Biaya Bahan Baku
+            document.getElementById('subtotal-bahan').innerText = "Rp " + totalVariable.toLocaleString('id-ID');
 
             const targetUnitBulanan = Number(document.getElementById('target-unit').value) || 1;
             
